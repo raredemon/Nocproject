@@ -5,6 +5,7 @@
 ## Copyright (C) 2019-2019 The NOC Project
 ## See LICENSE for details
 ##----------------------------------------------------------------------
+
 __author__ = 'Raredemon'
 
 ## Python modules
