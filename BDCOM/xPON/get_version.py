@@ -30,7 +30,7 @@ class Script(NOCScript):
         # Try SNMP first
         if self.snmp and self.access_profile.snmp_ro:
             try:
-                data_ = self.snmp.get("1.3.6.1.2.1.1.1.0", cached=True)
+                data = self.snmp.get("1.3.6.1.2.1.1.1.0", cached=True)
                 platform = self.re_search(self.rx_version, data)
                 version = self.re_search(self.rx_version, data)
                 build = self.re_search(self.rx_version, data)
