@@ -20,21 +20,25 @@ class Script(NOCScript):
     cache = True
 
     rx_version = re.compile(
-        r"^BDCOM\(tm\)\s+(?P<platform>\S+)\s+Software, Version\s+(?P<version>\S+)\s+Build\s+(?P<build>\S+)", re.MULTILINE)
+        r"BDCOM\(tm\)\s+(?P<platform>\S+)\s+Software,\s+Version\s+(?P<version>\S+)\s+Build\s+(?P<build>\d+)", re.MULTILINE)
     rx_hardware = re.compile(
-        r"^hardware\s+version:(?P<hardware>\S+)$", re.MULTILINE)
+        r"hardware\s+version:(?P<hardware>\S+)$", re.MULTILINE)
     rx_serial = re.compile(
-        r"^ROM:\s+System\s+Bootstrap,\s+Version\s+(?P<version>\S+),\s+Serial\s+num:(?P<serial>\d+)$", re.MULTILINE)
+        r"Serial\s+num:(?P<serial>\d+)$", re.MULTILINE)
+        #r"ROM:\s+System\s+Bootstrap,\s+Version\s+(?P<version>\S+),\s+Serial\s+num:(?P<serial>\d+)$", re.MULTILINE)
+
 
     def execute(self):
         # Try SNMP first
         if self.snmp and self.access_profile.snmp_ro:
             try:
                 data = self.snmp.get("1.3.6.1.2.1.1.1.0", cached=True)
-                platform = self.re_search(self.rx_version, data)
-                version = self.re_search(self.rx_version, data)
-                build = self.re_search(self.rx_version, data)
-                serial = self.re_search(self.rx_serial, data)
+                data = data.decode("utf-8")
+                data = str(data).rstrip("u")
+                match = self.re_search(self.rx_version, data)
+                platform, version, build = match.group("platform", "version", "build")
+                match = self.re_search(self.rx_serial, data)
+                serial = match.group("serial")
                 return {
                         "vendor": "BDCOM",
                         "platform": platform,
