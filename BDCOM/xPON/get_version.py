@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##----------------------------------------------------------------------
-## BDCOM.3310C.get_version
+## BDCOM.xPON.get_version
 ##----------------------------------------------------------------------
 ## Copyright (C) 2019-2019 The NOC Project
 ## See LICENSE for details

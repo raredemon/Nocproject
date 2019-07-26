@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##----------------------------------------------------------------------
-## BDCOM.3310C.get_mac_address_table
+## BDCOM.xPON.get_mac_address_table
 ##----------------------------------------------------------------------
 ## Copyright (C) 2019-2019 The NOC Project
 ## See LICENSE for details
@@ -22,7 +22,7 @@ class Script(NOCScript):
         r"(?:\S+\s+){0,2}(?P<interfaces>.*)$")
     rx_line2 = re.compile(
         r"^(?P<mac>\S+)\s+(?P<type>\S+)\s+(?P<vlan_id>\d+)\s+"
-        r"(?P<interfaces>.*)$")  # Catalyst 3500XL
+        r"(?P<interfaces>.*)$")
     ignored_interfaces = (
         "router", "switch", "stby-switch", "yes", "no", "-", "cpu", "drop"
     )
