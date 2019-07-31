@@ -27,8 +27,13 @@ class Profile(NOCProfile):
     command_leave_config = "exit"
     command_save_config = "write all"
     pattern_prompt = r"\S+#"
-    #convert_interface_name = NOCProfile.convert_interface_name_cisco
+    # def convert_interface_name(self, interface):
+    #     return self.convert_interface_name_cisco(interface)
 
     def convert_interface_name(self, interface):
+        il = interface.lower()
+        if il.startswith("epon"):
+            return "Epon" + interface[4:]
+        if il == "all":
+            return "all"
         return self.convert_interface_name_cisco(interface)
-
