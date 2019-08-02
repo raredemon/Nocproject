@@ -8,9 +8,11 @@
 
 __author__ = 'Raredemon'
 
+# Python modules
+import re
+# NOC modules
 from noc.sa.script import Script as NOCScript
 from noc.sa.interfaces import IGetVlans
-import re
 
 
 class Script(NOCScript):

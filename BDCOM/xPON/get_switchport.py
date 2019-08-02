@@ -43,10 +43,11 @@ class Script(NOCScript):
             port = match.group("port")
             desc = match.group("desc")
             state = match.group("state")
+            status = 'true' if state == 'up' else 'false'
             ports += [{
                 "port": port.replace('g', 'Gi'),
                 "desc": desc.strip('"'),
-                "state": state,
+                "state": status,
             }]
         return ports
 
@@ -62,14 +63,13 @@ class Script(NOCScript):
                 cmd_vlan = self.cli("show vlan interface " + intf['port'])
                 for match in self.rx_vlan.finditer(cmd_vlan):
                     port = intf['port']
-                    status = 'true' if intf['state'] == 'up' else 'false'
                     vlans1 = self.expand_interface_range(match.group("vlan"))
                     vlans2 = self.expand_interface_range(match.group("vlan1"))
                     propety_mode = match.group("property")
                     vlans_ = vlans1.extend(vlans2)
                     vlans += [{
                         "interface": self.profile.convert_interface_name(port.replace('p', 'Po')),
-                        "status": status,
+                        "status": intf['state'],
                         "tagged": vlans1,
                         "untagged": [],
                         "description": intf['desc'],
@@ -84,11 +84,10 @@ class Script(NOCScript):
             elif intf['port'].startswith('epon') and ':' in intf['port']:
                 cmd_vlan = self.cli("show running-config interface " + intf['port'] + " | include tag")
                 for match in self.rx_vlan_access.finditer(cmd_vlan):
-                    status = 'true' if intf['state'] == 'up' else 'false'
                     vlan = match.group("vlan")
                     vlans += [{
                             "interface": self.profile.convert_interface_name(intf['port']),
-                            "status": status,
+                            "status": intf['state'],
                             "tagged": [],
                             "untagged": vlan,
                             "description": intf['desc'],
@@ -100,14 +99,13 @@ class Script(NOCScript):
             else:
                 cmd_vlan = self.cli("show vlan interface " + intf['port'])
                 for match in self.rx_vlan.finditer(cmd_vlan):
-                    status = 'true' if intf['state'] == 'up' else 'false'
                     vlans1 = self.expand_interface_range(match.group("vlan"))
                     vlans2 = self.expand_interface_range(match.group("vlan1"))
                     propety_mode = match.group("property")
                     vlans_ = vlans1.extend(vlans2)
                     vlans += [{
                         "interface": intf['port'],
-                        "status": status,
+                        "status": intf['state'],
                         "tagged": vlans1,
                         "untagged": [],
                         "description": intf['desc'],
