@@ -19,6 +19,10 @@ class Profile(NOCProfile):
     supported_schemes = [TELNET, SSH]
     pattern_username = r"^Username:"
     pattern_password = r"^Password:"
+    pattern_more = [
+        (r"^More: <space>,  Quit: q, One line: <return>$", " "),
+        (r"^\s+--More--\s+", " "),
+        ]
     pattern_unpriveleged_prompt = r"^[\S+\s+]+\>$"
     pattern_syntax_error = r"^% (Unrecognized command|Incomplete command|Wrong number of parameters or invalid range, size or characters entered|bad parameter value)$"
     command_super = "enable"
