@@ -35,6 +35,16 @@ class Script(NOCScript):
         return False
 
     def execute(self, interface=None, vlan=None, mac=None):
+
+        r += [{
+            "vlan_id": match.group("vlan_id"),
+            "mac": mac,
+            "interfaces": interfaces,
+            "type": m_type
+        }]
+        return r
+
+    def execute_old(self, interface=None, vlan=None, mac=None):
         def qn(s):
             s = s.strip()
             if s.startswith("Eth VLAN "):
